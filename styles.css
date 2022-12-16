@@ -1,0 +1,46 @@
+body {
+    text-align: center;
+}
+
+img {
+    width: 250px;
+    height: 250px;
+}
+
+#drawContainer {
+    color: orange;
+    background-color: blue;
+}
+
+#timeForm {
+    background-color: aquamarine;
+}
+
+#flexDiv {
+    background-color: rgba(255, 0, 0, 0.632);
+}
+
+#buttonFlexSpace {
+    background-color: blueviolet;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    width: 100%;
+}
+
+#hours {
+    background-color: red;
+}
+
+#minutes {
+    background-color: green;
+}
+
+#seconds {
+    background-color: blue;
+}
