@@ -7,7 +7,6 @@ var timeInSeconds = 0;
 
 var timerActive = false;
 
-
 function gong() {
     var audio = new Audio("gong.mp3");
     audio.loop = false;
@@ -122,6 +121,13 @@ function checkTimeValidity() {
             drawSetup();
             break;
         }
+
+        else if (timeInSeconds == 1) {
+            timeValidity = false;
+            alert("Please input a time greater than one second.");
+            drawSetup();
+            break;
+        }
     }
 
     if (timeValidity == true) {
@@ -146,7 +152,6 @@ function drawCountdown() {
     pause.id = "pauseButton";
     pause.innerText = "Pause"
     pause.onclick = pauseTimer;
-    var isPaused = false; //initialised pause state for the later-defined pauseTimer()
     document.getElementById("buttonFlexSpace").appendChild(pause);
     
     var stop = document.createElement("button");
@@ -154,42 +159,42 @@ function drawCountdown() {
     stop.innerText = "Stop"
     stop.onclick = stopTimerAndReset;
     document.getElementById("buttonFlexSpace").appendChild(stop);
-
+    
     timeInSeconds = timeInSeconds - 1;
     timerActive = true;
     const timerInterval = setInterval(updateTimeDisplay, 1000);
 
+    function pauseTimer() {
+        if (timerActive == true) {
+            timerActive = false;
+            console.log("PAUSED");
+        }
+
+        else if (timerActive == false) {
+            timerActive = true;
+            console.log("UNPAUSED");
+        }
+    }
+
     function stopTimerAndReset() {
+        timerActive = false;
         clearInterval(timerInterval);
         drawSetup();
-    }
-
-    function pauseTimer() {
-        if (isPaused == false) {
-            isPaused = true;
-            clearInterval(timerInterval);
-        }
-        
-        if (isPaused == true) {
-            isPaused = false;
-            setInterval(updateTimeDisplay, 1000);
-        }
-    }
-
-    if (timeInSeconds == 0) {
-        timerActive = false;
-        timeInSeconds = 0;
-        clearInterval(timerInterval);
     }
 }
 
 function updateTimeDisplay() {
-    if (timeInSeconds > 0) {
+    if ((timerActive == true) && (timeInSeconds >= 0)) {
         timeDisplay.innerText = timeInSeconds;
         timeInSeconds = timeInSeconds - 1;
+        console.log("TIMER ACTIVE: ", timerActive);
+        console.log(timeInSeconds);
     }
-    else {
-        timeDisplay.innerText = 0;
-        timeInSeconds = 0;
+
+    if (timerActive == false) {
+        timeDisplay.innerText = timeInSeconds;
+        timeInSeconds = timeInSeconds;
+        console.log("TIMER ACTIVE: ", timerActive);
+        console.log(timeInSeconds);
     }
 }
