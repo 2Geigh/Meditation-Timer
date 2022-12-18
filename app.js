@@ -79,13 +79,23 @@ function checkTimeValidity() {
 
     timeInSeconds = 0;
 
-    hours = parseInt(document.getElementById("hours").value);
-    minutes = parseInt(document.getElementById("minutes").value);
-    seconds = parseInt(document.getElementById("seconds").value);
+    hours = document.getElementById("hours").value;
+    minutes = document.getElementById("minutes").value;
+    seconds = document.getElementById("seconds").value;
 
     var timeInputValues = [hours, minutes, seconds];
 
-    //Checks for empty input fieds
+    //Accounts for empty fields
+    if (hours.trim() == "") { hours = 0; }
+    if (minutes.trim() == "") { minutes = 0; }
+    if (seconds.trim() == "") { seconds = 0; }
+
+    //Converts string input to integer
+    hours = parseInt(hours);
+    minutes = parseInt(minutes);
+    seconds = parseInt(seconds);
+
+    //Checks for invalid input fieds
     if (isNaN(hours) == true) { hours = 0; }
     if (isNaN(minutes) == true) { minutes = 0; }
     if (isNaN(seconds) == true) { seconds = 0; }
@@ -120,24 +130,6 @@ function checkTimeValidity() {
 }
 
 function drawCountdown() {
-/*
-    timeInSeconds = 0;
-
-    hours = parseInt(document.getElementById("hours").value);
-    minutes = parseInt(document.getElementById("minutes").value);
-    seconds = parseInt(document.getElementById("seconds").value);
-
-    //Checks for empty input fieds
-    if (isNaN(hours) == true) { hours = 0; }
-    if (isNaN(minutes) == true) { minutes = 0; }
-    if (isNaN(seconds) == true) { seconds = 0; }
-
-    var hoursInSeconds = hours * 60 * 60; //converts hours to seconds
-    var minutesInSeconds = minutes * 60; //converts minutes to seconds
-
-    timeInSeconds = seconds + minutesInSeconds + hoursInSeconds; //the total summed time from the three input fields in seconds
-    console.log(timeInSeconds);*/
-
     document.getElementById("drawContainer").innerHTML = ""; //Clears all content in #drawContainer to initialise it
     
     var timeDisplay = document.createElement('h3')
@@ -153,6 +145,8 @@ function drawCountdown() {
     var pause = document.createElement("button");
     pause.id = "pauseButton";
     pause.innerText = "Pause"
+    pause.onclick = pauseTimer;
+    var isPaused = false; //initialised pause state for the later-defined pauseTimer()
     document.getElementById("buttonFlexSpace").appendChild(pause);
     
     var stop = document.createElement("button");
@@ -168,6 +162,18 @@ function drawCountdown() {
     function stopTimerAndReset() {
         clearInterval(timerInterval);
         drawSetup();
+    }
+
+    function pauseTimer() {
+        if (isPaused == false) {
+            isPaused = true;
+            clearInterval(timerInterval);
+        }
+        
+        if (isPaused == true) {
+            isPaused = false;
+            setInterval(updateTimeDisplay, 1000);
+        }
     }
 
     if (timeInSeconds == 0) {
