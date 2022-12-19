@@ -15,7 +15,6 @@ function gong() {
 } //plays the gong sound effect
 
 function drawSetup() {
-
     //Initialises variables
     timerActive = false;
     hours = 1;
@@ -70,7 +69,6 @@ function drawSetup() {
     //startButton.type = "submit";
     startButton.innerHTML = "Start";
     startButton.onclick = checkTimeValidity;
-    startButton.style.color = "red"; 
     document.getElementById("drawContainer").appendChild(startButton);
 }
 
@@ -138,7 +136,7 @@ function checkTimeValidity() {
 
 function drawCountdown() {
     document.getElementById("drawContainer").innerHTML = ""; //Clears all content in #drawContainer to initialise it
-    
+
     var timeDisplay = document.createElement('h2')
     timeDisplay.id = "timeDisplay";
     timeDisplay.innerText = timeInSeconds;
