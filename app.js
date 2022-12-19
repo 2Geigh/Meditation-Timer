@@ -7,10 +7,11 @@ var timeInSeconds = 0;
 
 var timerActive = false;
 
+const gongSound = new Audio("gong.mp3");
+gongSound.loop = false;
+
 function gong() {
-    var audio = new Audio("gong.mp3");
-    audio.loop = false;
-    audio.play();
+    gongSound.play();
 } //plays the gong sound effect
 
 function drawSetup() {
@@ -138,7 +139,7 @@ function checkTimeValidity() {
 function drawCountdown() {
     document.getElementById("drawContainer").innerHTML = ""; //Clears all content in #drawContainer to initialise it
     
-    var timeDisplay = document.createElement('h3')
+    var timeDisplay = document.createElement('h2')
     timeDisplay.id = "timeDisplay";
     timeDisplay.innerText = timeInSeconds;
     document.getElementById("drawContainer").appendChild(timeDisplay);
@@ -164,7 +165,13 @@ function drawCountdown() {
     timerActive = true;
     const timerInterval = setInterval(updateTimeDisplay, 1000);
 
+
+
     function pauseTimer() {
+        if (timeInSeconds <= 0) {
+            return;
+        }
+
         if (timerActive == true) {
             timerActive = false;
             console.log("PAUSED");
@@ -181,20 +188,44 @@ function drawCountdown() {
         clearInterval(timerInterval);
         drawSetup();
     }
+
+    function stopTimerAndComplete() {
+        timerActive = false;
+        clearInterval(timerInterval);
+        drawCompletion();
+    }
+
+    function updateTimeDisplay() {
+        if (timeInSeconds == -1) {
+            gong();
+            stopTimerAndComplete();
+        }
+
+        if (timerActive == true) {
+            timeDisplay.innerText = timeInSeconds;
+            timeInSeconds = timeInSeconds - 1;
+            console.log("TIMER ACTIVE: ", timerActive);
+            console.log(timeInSeconds);
+        }
+    
+        else if (timerActive == false) {
+            timeDisplay.innerText = timeInSeconds;
+            timeInSeconds = timeInSeconds;
+            console.log("TIMER ACTIVE: ", timerActive);
+            console.log(timeInSeconds);
+        }
+    }
 }
 
-function updateTimeDisplay() {
-    if ((timerActive == true) && (timeInSeconds >= 0)) {
-        timeDisplay.innerText = timeInSeconds;
-        timeInSeconds = timeInSeconds - 1;
-        console.log("TIMER ACTIVE: ", timerActive);
-        console.log(timeInSeconds);
-    }
+function drawCompletion() {
+    document.getElementById("drawContainer").innerHTML = ""; //Clears all content in #drawContainer to initialise it
+    
+    var completionMessage = document.createElement('h2')
+    completionMessage.id = "completionMessage";
+    completionMessage.innerText = "Nice work, king.";
+    document.getElementById("drawContainer").appendChild(completionMessage);
 
-    if (timerActive == false) {
-        timeDisplay.innerText = timeInSeconds;
-        timeInSeconds = timeInSeconds;
-        console.log("TIMER ACTIVE: ", timerActive);
-        console.log(timeInSeconds);
-    }
+    setTimeout(drawSetup, 5000);
+
+    
 }
