@@ -42,9 +42,6 @@ p {
     border-radius: 5px;
 }
 
-#timeForm {
-    /*background-color: aquamarine;*/
-}
 /*This is the flexspace for the buttons in the home / setup screen */
 #flexDiv {
     display: flex;
